@@ -38,10 +38,10 @@ function addMessage(author, content) {
 
 function sendMessage(event) {
   event.preventDefault();
-  if(!addMessageForm.value) {
+  if(messageContentInput.value) {
     addMessage(userName, messageContentInput.value);
     messageContentInput.value = '';
-  } else if(!addMessageForm.value) {
+  } else if(!messageContentInput.value) {
     alert('Text field is empty');
   }
 };
