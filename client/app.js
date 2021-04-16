@@ -8,13 +8,16 @@ const messageContentInput = document.getElementById('message-content');
 //global ref
 let userName = null;
 
+const socket = io();
+socket.on('message', ({ author, content}) => addMessage(author, content));
+
 loginForm.addEventListener('submit', login);
 addMessageForm.addEventListener('submit', sendMessage)
 
 function login(event) {
   event.preventDefault();
   if(userNameInput.value) {
-    userName = event;
+    userName = userNameInput.value;
     loginForm.classList.remove('show');
     messagesSection.classList.add('show');
   } else if(!userNameInput.value){
@@ -23,6 +26,7 @@ function login(event) {
 }
 
 function addMessage(author, content) {
+  console.log('Im ', author)
   const message = document.createElement('li');
   message.classList.add('message');
   message.classList.add('message--received');
@@ -38,10 +42,13 @@ function addMessage(author, content) {
 
 function sendMessage(event) {
   event.preventDefault();
+
   if(messageContentInput.value) {
     addMessage(userName, messageContentInput.value);
+    socket.emit('message', { author: userName, content: messageContentInput.value });
     messageContentInput.value = '';
-  } else if(!messageContentInput.value) {
+  }
+  else if(!messageContentInput.value) {
     alert('Text field is empty');
   }
 };
