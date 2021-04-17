@@ -20,6 +20,7 @@ function login(event) {
     userName = userNameInput.value;
     loginForm.classList.remove('show');
     messagesSection.classList.add('show');
+    socket.emit('join', { name: userName, id: socket.id });
   } else if(!userNameInput.value){
     alert('User name is empty!') 
   };
